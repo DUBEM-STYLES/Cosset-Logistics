@@ -32,6 +32,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [contactSuccess, setContactSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState<"home" | "quote">("home");
   
   // Testimonial auto-rotation or selection index state
   const [currentTestimonialIdx, setCurrentTestimonialIdx] = useState(0);
@@ -170,16 +171,40 @@ export default function App() {
   // Smooth scroll navigating handler
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const navOffset = 85; 
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - navOffset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+    
+    if (sectionId === "calculator" || sectionId === "quote") {
+      setCurrentPage("quote");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (currentPage !== "home") {
+      setCurrentPage("home");
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const navOffset = 85; 
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - navOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 150);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const navOffset = 85; 
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - navOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
     }
   };
 
@@ -290,7 +315,153 @@ export default function App() {
       {/* Floating Sparkle Elements Background decoration */}
       <div className="absolute top-0 inset-x-0 h-[600px] bg-dot-grid opacity-30 dark:opacity-40 -z-10 pointer-events-none"></div>
 
-      {/* Hero Section */}
+      {currentPage === "quote" ? (
+        <div id="quote-page-container" className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 text-left">
+          {/* Page Header */}
+          <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-slate-200 dark:border-slate-800 pb-8">
+            <div>
+              {/* Back breadcrumb */}
+              <button
+                onClick={() => setCurrentPage("home")}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-royal-blue dark:hover:text-white transition-colors mb-3 cursor-pointer"
+              >
+                &larr; Back to Home Page
+              </button>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                Quote & Booking Center
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                Configure interprovincial shipping routes and calculate exact friction-free carrier pricing.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setCurrentPage("home")}
+                className="px-5 py-3 border border-slate-205 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+              >
+                Browse Services
+              </button>
+              <button
+                onClick={() => handleNavigate("portal")}
+                className="px-5 py-3 bg-slate-950 dark:bg-slate-850 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                View Booked Deliveries
+              </button>
+            </div>
+          </div>
+
+          {/* Dedicated Grid and layout with QuoteCalculator and Freight Specs */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            {/* Prime Calculator component columns */}
+            <div className="lg:col-span-7">
+              <QuoteCalculator onAddBooking={handleAddBooking} onNavigate={handleNavigate} />
+            </div>
+
+            {/* Operational Specifications column */}
+            <div className="lg:col-span-5 space-y-6">
+              {/* SPEC CARD 1 */}
+              <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3 block">
+                  Cosset Freight Dispatches
+                </h3>
+
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-royal-blue flex items-center justify-center shrink-0">
+                      <Truck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-tight">
+                        National Carrier Network
+                      </h4>
+                      <p className="text-[11px] text-slate-450 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                        Our trucks follow daily scheduled highway corridors connecting major Western and Eastern Canadian freight centers with Winnipeg central depots.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                      <CheckCircle className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-tight">
+                        Flat-Rate Accountability
+                      </h4>
+                      <p className="text-[11px] text-slate-450 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                        Absolutely zero local surcharges or sudden dock loading fees. Our pricing uses direct Haversine calculations at a simple flat-rate per kilometer.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-650 dark:text-purple-400 flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-tight">
+                        Complete Transit Coverage
+                      </h4>
+                      <p className="text-[11px] text-slate-455 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                        Every commercial load and residential shipment is automatically backed by comprehensive cargo liability policy matching up to $10,000,000 protection guarantee.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ILLUSTRATIVE ACTIVE COMMITTED MAP OR LANES */}
+              <div className="p-7 rounded-3xl bg-slate-900 text-white relative overflow-hidden text-left shadow-lg border border-slate-800">
+                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-32 h-32"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                </div>
+
+                <span className="text-[10px] font-bold text-royal-blue uppercase tracking-widest font-mono">
+                  Active Premium Transport Lanes
+                </span>
+                <h4 className="text-lg font-black tracking-tight mt-1.5 uppercase">
+                  Winnipeg Dispatch Core
+                </h4>
+                <p className="text-[11px] text-slate-400 mt-1 leading-relaxed font-medium">
+                  Our centrally coordinated dispatch operations guarantee fast package arrivals and secure residential moving.
+                </p>
+
+                <div className="space-y-2.5 pt-4 border-t border-white/10 mt-4.5 text-xs font-mono">
+                  <div className="flex justify-between text-neutral-300">
+                    <span>Calgary &harr; Winnipeg:</span>
+                    <span className="text-white font-bold">1,200 km (Direct Line)</span>
+                  </div>
+                  <div className="flex justify-between text-neutral-300">
+                    <span>Winnipeg &harr; Toronto:</span>
+                    <span className="text-white font-bold">1,500 km (Direct Transit)</span>
+                  </div>
+                  <div className="flex justify-between text-neutral-300">
+                    <span>Vancouver &harr; Calgary:</span>
+                    <span className="text-white font-bold">970 km (Mountain Route)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dispatch Hot Button */}
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 flex items-center justify-between gap-4">
+                <div className="space-y-0.5">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block font-mono">24/7 CUSTOMER SERVICE</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">+1 (431) 373-5040</span>
+                </div>
+                <a
+                  href="tel:+14313735040"
+                  className="px-4 py-2 bg-royal-blue text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-royal-blue-hover shrink-0 transition-colors"
+                >
+                  Call Desk
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Hero Section */}
       <section id="hero" className="relative py-12 md:py-20 overflow-hidden flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -376,7 +547,57 @@ export default function App() {
               {/* Subtle visual animated truck decoration in hero back-frame */}
               <div className="absolute -top-10 -right-8 w-48 h-48 bg-royal-blue/15 rounded-full blur-3xl pointer-events-none"></div>
               
-              <QuoteCalculator onAddBooking={handleAddBooking} onNavigate={handleNavigate} />
+              <div className="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-premium p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between min-h-[460px] text-left">
+                {/* Decorative Top Frame */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-royal-blue to-blue-500"></div>
+
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-1.5 text-[10px] font-bold text-royal-blue bg-blue-50 dark:bg-blue-900/25 px-2.5 py-1 rounded-md font-mono uppercase tracking-widest">
+                    <Sparkles className="w-3.5 h-3.5" /> Instant Transit Estimator Active
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+                    Determine Your Flat Carrier Rate
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed font-medium">
+                    Use our advanced Haversine mileage matrix to calculate exact transport prices across Canada. No credit card required, instant live scheduling matrix logging.
+                  </p>
+                </div>
+
+                {/* Visual Interactive Dashboard elements mimicking route */}
+                <div className="bg-slate-50 dark:bg-slate-855 rounded-2xl p-4.5 border border-slate-150 dark:border-slate-800/80 space-y-4 my-6 text-left">
+                  <div className="flex justify-between items-center text-xs font-bold text-slate-400 font-mono">
+                    <span>ROUTE CHANNELS PROVISIONED</span>
+                    <span className="text-emerald-500 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> READY
+                    </span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-left">
+                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-750">
+                      <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">PICKUP HUB</span>
+                      <span className="text-sm font-black text-slate-900 dark:text-white">Winnipeg, MB</span>
+                    </div>
+                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-750">
+                      <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">DROPOFF METRO</span>
+                      <span className="text-sm font-black text-slate-900 dark:text-white">Toronto, ON</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800 text-xs font-mono">
+                    <span className="text-slate-400">Standard Transit Rate:</span>
+                    <span className="font-bold text-slate-900 dark:text-white">$2.50 per excess km</span>
+                  </div>
+                </div>
+
+                {/* Button to go to the full Quote Page */}
+                <button
+                  onClick={() => setCurrentPage("quote")}
+                  className="w-full py-4 bg-royal-blue hover:bg-royal-blue-hover text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  Calculate Free Quote Now
+                  <ArrowRight className="w-4.5 h-4.5" />
+                </button>
+              </div>
             </div>
 
           </div>
@@ -1109,6 +1330,8 @@ export default function App() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
       {/* Main Footer Summary Section */}
       <footer className="mt-auto bg-slate-950 text-slate-400 py-12 border-t border-slate-900 bg-dot-grid dark:bg-none">

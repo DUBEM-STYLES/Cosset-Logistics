@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-royal-blue: #0D6EFD;
+  --color-royal-blue-hover: #0a58ca;
+  --color-deep-navy: #0A1F44;
+  --color-glass-white: rgba(255, 255, 255, 0.08);
+  --color-glass-dark: rgba(10, 31, 68, 0.6);
+
+  --shadow-premium: 0 25px 50px -12px rgba(10, 31, 68, 0.15);
+  --shadow-glow: 0 0 20px rgba(13, 110, 253, 0.25);
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased text-gray-800 transition-colors duration-300;
+  }
+  
+  /* Smooth custom scrollbar for pre-eminent aesthetics */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-slate-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-royal-blue/60 transition-colors;
+  }
+}
+
+/* Glassmorphism utility shortcuts */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark .glass-effect {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dot grid backgrounds */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(13, 110, 253, 0.15) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-dot-grid {
+  background-image: radial-gradient(rgba(13, 110, 253, 0.25) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Animations */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-route-line {
+  stroke-dasharray: 8, 4;
+  animation: dash 1.5s linear infinite;
+}
+
+@keyframes drive {
+  0% {
+    transform: translateX(-40px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(-40px);
+  }
+}
+
+.animate-float-truck {
+  animation: drive 6s ease-in-out infinite;
+}

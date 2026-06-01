@@ -1,0 +1,6 @@
+{
+  "name": "Cosset Logistics",
+  "description": "Modern, premium logistics, moving, hauling, and delivery platform serving Canada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -13,9 +13,9 @@ import CustomerPortal from "./components/CustomerPortal";
 import ChatWidget from "./components/ChatWidget";
 import { Booking, GalleryItem, Testimonial } from "./types";
 
-import imageG2 from "./assets/images/regenerated_image_1780327426840.jpg";
-import imageG3 from "./assets/images/regenerated_image_1780327427688.jpg";
-import imageG4 from "./assets/images/regenerated_image_1780327428233.png";
+import imageG2 from "./assets/images/regenerated_image_1780327752359.jpg";
+import imageG3 from "./assets/images/regenerated_image_1780327754763.png";
+import imageG4 from "./assets/images/regenerated_image_1780327753802.jpg";
 
 // Dynamic Unsplash links for beautiful, reliable illustration renderings
 const IMAGES = {

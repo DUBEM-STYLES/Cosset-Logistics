@@ -36,31 +36,53 @@ function getGeminiClient(): GoogleGenAI | null {
 
 // System prompt for Cosset Logistics AI Assistant
 const SYSTEM_INSTRUCTION = `You are "Cosset AI", the premium intelligent customer agent for Cosset Logistics - Canada's leading tech-first logistics, moving, delivery, and hauling company.
-Your home office is in Winnipeg, Manitoba.
+Your home office and central dispatch is in Winnipeg, Manitoba, serving all of Canada from coast to coast.
 
-Company details:
+Company Details:
 - Name: Cosset Logistics
 - Phone: +1 (431) 373-5054
 - Email: info@cossetlogistics.com
-- Major Hubs: Winnipeg, Toronto, Calgary, Edmonton, Vancouver, Ottawa, Regina, Saskatoon.
-- Services Offered:
-  1. Moving Services: Residential Moving, Apartment Relocation, Office Moving, Packing Assistance.
-  2. Delivery Services: Same-Day Delivery, Scheduled Delivery, E-commerce Delivery, Commercial Deliveries.
-  3. Hauling Services: Furniture Removal, Construction Debris Removal, Appliance Removal, Junk Hauling.
+- Website: www.cossetlogistics.com
+- Central Hub: Winnipeg, MB
+- Major Transit Hubs: Winnipeg, Toronto, Calgary, Edmonton, Vancouver, Ottawa, Regina, Saskatoon.
 
-Pricing Guidelines (Estimates):
-- Distance fee: Roughly $2.50 per kilometer across Canada.
-- Minimum Charges:
-  * Moving: $150 minimum (includes 2 movers).
-  * Deliveries: $35 minimum.
-  * Hauling & Junk Removal: $80 minimum.
+Operational Services & Detailed Processes:
 
-Tone & Style:
-- Extremely professional, reliable, modern, and warm.
-- Keep replies relatively concise, scannable, and helpful. Use bullet points for options.
-- If they ask for quotes, encourage them to use our interactive Live Quote Calculator on the website, or provide a rough calculation.
-- Be supportive of moving logistics, packing tips, or booking confirmations.
-- NEVER invent a tracking number. If they ask about tracking, say they can use the tracking screen with their code (e.g., CS-10543, CS-98421, or any code starting with CS-).`;
+1. THE RESIDENTIAL & OFFICE MOVING PROCESS:
+   - Phase 1: Inquiry & Accurate Distance Estimation
+     We analyze custom cargo criteria using our online high-precision Haversine coordinate formula which measures direct routes between any Canadian pickup and dropoff coordinates. The standard transit rate is $2.50 per kilometer.
+   - Phase 2: Booking & Capacity Planning
+     Secured with zero deposit. A Winnipeg dispatch officer reviews specific requirements, ensuring optimal truck size (from standard box trucks to 53-foot freight rigs) and correct crew count (moving base rate starts at $150 and includes 2 highly-trained professionals).
+   - Phase 3: Packing & Preparation
+     Full or partial packing services. We use premium double-walled corrugated boxes, shock-absorbing clean bubble wraps, scratch-preventative stretch film, and custom heavy-duty wood framing for premium furniture or high-end antiques. Items are labeled meticulously for modular offloading.
+   - Phase 4: Dispatch, Protection & Loading
+     On moving day, our team runs clean-floor runners to preserve hardwoods and carpets. We drape all large furniture in clean, thick microfiber moving blankets, binding them securely with heavy-duty bands. We utilize hydraulic lift gates and heavy-duty industrial dollies for safe, secure truck loading.
+   - Phase 5: Long-Haul Transit & GPS Synchronization
+     Fleet trucks are assigned official tracking codes starting with "CS-" (e.g., CS-10543, CS-98421, CS-20412). Freight paths are continuously monitored by Winnipeg desk dispatchers, with live status coordinates synchronized onto client dashboards.
+   - Phase 6: Unloading, Basic Assembly & Final Sign-off
+     Upon arrival, we position all boxes and furniture directly into customer-designated rooms. We assemble beds, tables, and desks that were disassembled at origin, clear all left-over packing debris, and conduct a final walkthrough with the client to verify absolute satisfaction before paperless sign-off.
+
+2. THE HEAVY HAULING & JUNK DISPOSAL PROCESS:
+   - Phase 1: Heavy Waste Evaluation
+     Hauling rates start at a minimum of $80. Clients specify the debris or items to clear (broken concrete, drywall cutoffs, scrap structural metals, old refrigerators, massive washers, and household junk).
+   - Phase 2: Heavy Rig Dispatch & Loading
+     We dispatch heavy-duty flatbed trailers or high-volume open-box trucks equipped with safety winches and professional lift-straps. Our background-checked crew handles all structural lifts safely so clients never lift a finger.
+   - Phase 3: Material Sorting & Eco-Friendly Salvaging
+     At Cosset, environmental sustainability is a core commitment. Every hauling load is brought to our sorting depots where metals, electronics, and recyclable lumbers are separated. We salvage metals and recycle usable plastics at local Winnipeg and regional eco-recycling stations, reducing landfill loads. Residual waste is discarded solely at certified municipal environmental landfill zones. We strictly prohibit illegal dumping.
+   - Phase 4: Clean Sweep & Area Handover
+     After loading all hauled scrap, we sweep the concrete, soil, or driveway area to ensure the zone is entirely free of nails, glass, and residual clutter, presenting a safe, clean space back to the client.
+
+3. LOGISTICS, EXPRESS CHANNELS & E-COMMERCE DELIVERIES:
+   - Same-Day & Scheduled Express: Delivering fragile parcels or mission-critical corporate documents directly across metro regions starting at $35.
+   - E-Commerce Integration: Web shops synchronizing directly with our shipping matrix API to generate instantaneous flat-rate quotes and automated scheduling during checkouts.
+   - Supply Chain & B2B Hauling: Dedicated, contract-grade regular freight shipments between industrial warehouses and Canadian distribution networks.
+
+Guidelines for Conversing with Customers:
+- Extremely professional, reliable, informative, modern, and warm. Avoid dry, low-quality automated responses.
+- Detail the actual step-by-step processes above to answer questions thoroughly. Make clients feel extremely secure about how Cosset handles their items.
+- If they ask for quotes, encourage them to use our interactive Live Quote Calculator on the homepage, or do a quick estimate if they specify distance and service type.
+- NEVER invent a tracking number. If they ask to track, explain that they can enter their code starting with "CS-" directly into our Tracking Dashboard on the web app for live real-time GPS tracking.
+- Highlight our $10 Million Liability & Cargo Indemnity Protection Plan for complete peace of mind.`;
 
 // API routes
 app.post("/api/chat", async (req, res) => {
@@ -83,15 +105,58 @@ app.post("/api/chat", async (req, res) => {
     // If API Key is missing or default, generate a smart, simulated response
     const lastUserMessage = messages[messages.length - 1]?.content || "Hello";
     let simulatedReply = "";
+    const msgLower = lastUserMessage.toLowerCase();
 
-    if (lastUserMessage.toLowerCase().includes("quote") || lastUserMessage.toLowerCase().includes("cost")) {
-      simulatedReply = "I can certainly give you a rough estimate! Our moving services start at a base rate of **$150** (which includes 2 professional crew members), deliveries start at **$35**, and hauling services start at **$80**. The precise cost depends on distance ($2.50/km) and number of items. \n\nI highly recommend using our **Live Quote Calculator** right here on the homepage for an instant, real-time calculation and booking!";
-    } else if (lastUserMessage.toLowerCase().includes("track") || lastUserMessage.toLowerCase().includes("where is")) {
+    if (msgLower.includes("process") && (msgLower.includes("move") || msgLower.includes("moving") || msgLower.includes("relocat"))) {
+      simulatedReply = `### Cosset 6-Phase Professional Moving Process 📦
+
+At Cosset Logistics, we coordinate residential and corporate moves with precision. Here is our exact process:
+
+1. **Inquiry & Distance Estimation (Phase 1):** We analyze your inventory criteria and use our precise **Haversine coordinate system** to calculate actual transit distances from hub to destination with flat-rate transparent fees ($2.50/km).
+2. **Booking & Rig Planning (Phase 2):** Your booking is confirmed with **$0 deposit**. Winnipeg dispatch designates a correctly sized truck (from local box trucks to 53ft highway carriers) and maps your professional crew.
+3. **Meticulous Packing (Phase 3):** We pack your items using premium double-walled corrugated boxes, shock-absorbent bubble wraps, heavy stretch film, and custom wood frames for fragile antiques.
+4. **Loading & Surface Protection (Phase 4):** On moving day, we lay out clean floor runners. Large furniture is daped in pristine microfiber blankets. Everything is loaded safely using advanced hydraulic lift gates.
+5. **Real-time Long-Haul GPS (Phase 5):** Your shipment is labeled with a tracking code starting with **CS-** (e.g., **CS-98421** or **CS-10543**). You can view the truck routing live on our tracking screen.
+6. **Room Setup & Furniture Assembly (Phase 6):** At your destination, we offload items in room-by-room slots, assemble standard bed frames and desks, clear all waste materials, and perform a live walkthrough before final sign-off.
+
+Would you like to calculate a free estimate or check out our booking options?`;
+    } else if (msgLower.includes("process") && (msgLower.includes("haul") || msgLower.includes("debris") || msgLower.includes("junk") || msgLower.includes("appliance"))) {
+      simulatedReply = `### Cosset 4-Phase Heavy Hauling & Eco-Friendly Disposal Process 🪵
+
+We handle massive concrete debris, junk, retired construction supplies, and appliance extractions safely. Here is how we do it:
+
+1. **Heavy Waste Evaluation (Phase 1):** Hauling starts at an $80 minimum. You list the items (brick, drywall, heavy structural steel, refrigerators, washing machines), and we confirm dispatch.
+2. **Heavy-Duty Rig Dispatch (Phase 2):** We send heavy flatbed trailers or high-volume open-box vehicles armed with professional winches and lifting straps. Our background-checked team completes all manual lifts.
+3. **Certified Eco-Sorting Depot (Phase 3):** To reduce landfill loads, we bring the haul to our dedicated sorting yards. Scrap metals, functional plastics, and timbers are salvaged and brought to Winnipeg recycling centers. Residual waste is officially disposed of only at authorized municipal landfills.
+4. **Final Site Sweep (Phase 4):** Once the cargo is securely loaded, our crew sweeps the hauling ground clean, leaving your driveway or property immediately occupancy-ready.
+
+How can we assist you with hauling or site cleanups today?`;
+    } else if (msgLower.includes("process") || msgLower.includes("logistics") || msgLower.includes("delivery") || msgLower.includes("deliveries")) {
+      simulatedReply = `### Cosset Logistics & Delivery Infrastructure 🚚
+
+We operate Canada's master high-tech courier network from our primary hub in Winnipeg, Manitoba.
+
+- **Same-Day & Scheduled Express:** Dynamic courier drops across major metro grids (Winnipeg, Toronto, Calgary, Edmonton, Vancouver, Ottawa, Regina, Saskatoon) starting at a low $35 flat rate.
+- **E-Commerce API Integrations:** Auto-calculating distance matrices and delivery routes at e-commerce checkouts for live flat-rates.
+- **Integrated Storage & Cargo Insurance:** Backed by our premium **$10 Million General Liability and Cargo Indemnity Plan** for ultimate freight security.
+- **24/7 Dispatch Control:** Every freight line is continuously logged and guided by Winnipeg dispatch leaders to guarantee on-time arrival.
+
+Can I assist you with standard courier deliveries, corporate freight, or API configurations?`;
+    } else if (msgLower.includes("quote") || msgLower.includes("cost") || msgLower.includes("price") || msgLower.includes("pricing") || msgLower.includes("estimate")) {
+      simulatedReply = `Cosset Logistics operates on highly clear, transparent pricing grids with **zero hidden surcharges**:
+
+- 📦 **Residential/Office Moving:** Starts at **$150** flat-rate minimum (includes 2 professional movers).
+- 🚚 **Local Metro Deliveries of fragile freight/parcels:** Starts at **$35** flat-rate minimum.
+- 🪵 **Heavy Hauling & Construction Disposal:** Starts at **$80** flat-rate minimum.
+- 📍 **Inter-Hub Shipping Rate:** Calculated flatly at **$2.50 per kilometer**.
+
+You can try out our **Live Quote Calculator** on the home page for real-time rates and live route scheduling!`;
+    } else if (msgLower.includes("track") || msgLower.includes("where is")) {
       simulatedReply = "To track a shipment, please enter your tracking code starting with **CS-** (e.g., **CS-98421** or **CS-10543**) in the tracking dashboard below! You will be able to see the live truck route, current city, and estimated delivery status in real-time.";
-    } else if (lastUserMessage.toLowerCase().includes("contact") || lastUserMessage.toLowerCase().includes("phone") || lastUserMessage.toLowerCase().includes("email")) {
-      simulatedReply = "You can contact Cosset Logistics anytime!\n\n- 📞 Phone: **+1 (431) 373-5054**\n- ✉️ Email: **info@cossetlogistics.com**\n- 📍 Main Office: **Winnipeg, Manitoba, Canada**\n\nOur customer desk is active 24/7 to support your logistics, moving, or hauling needs.";
+    } else if (msgLower.includes("contact") || msgLower.includes("phone") || msgLower.includes("email") || msgLower.includes("help") || msgLower.includes("support")) {
+      simulatedReply = "You can contact Cosset Logistics anytime!\n\n- 📞 Phone: **+1 (431) 373-5054**\n- ✉️ Email: **info@cossetlogistics.com**\n- 📍 Main Office Support: **Winnipeg, Manitoba, Canada**\n\nOur customer desk is active 24/7 to support your logistics, moving, or hauling needs.";
     } else {
-      simulatedReply = "Hello! I am **Cosset AI**, your logistics assistant. Welcome to Cosset Logistics. \n\nHow can I assist you today? I can help with:\n\n- 📦 Relocating your home or office\n- 🚚 Same-Day or scheduled dispatch across Canada\n- 🪵 Construction hauling or appliance removal\n- 📍 Service service coverage updates\n\nFeel free to ask a question, or use our **Live Quote Calculator** for an instant estimate!";
+      simulatedReply = "Hello! I am **Cosset AI**, your professional logistics assistant. Welcome to Cosset Logistics.\n\nHow can I help you manage your logistics today? I can guide you through our exact, secure processes for:\n\n- 📦 **Residential or Office Moving** (Meticulous 6-Phase process with full packing/blanket wrapping)\n- 🪵 **Heavy Hauling & Disposal** (Eco-sorting, metal salvage, and certified grounds cleaning)\n- 🚚 **E-Commerce & Same-Day Logistics** (Automated APIs, courier drops, and regional hub transits)\n- 📍 **Instant Cost Quotes** via our Flat-Rate calculator ($2.50/km distance matrix)\n\nWhat would you like to know more about?";
     }
 
     return res.json({

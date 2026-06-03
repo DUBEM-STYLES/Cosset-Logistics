@@ -261,7 +261,7 @@ export default function CustomerPortal({ bookingsList, onUpdateStatus, onCancelB
                   <div>
                     <h5 className="font-extrabold text-lg uppercase tracking-tight">Cosset Logistics Inc.</h5>
                     <span className="text-[10px] font-mono tracking-widest text-slate-500">CANADIAN CARRIER SYSTEM</span>
-                    <span className="text-[9px] block text-slate-500 mt-1">HQ Office: Winnipeg, MB, Canada | info@cossetlogistics.ca</span>
+                    <span className="text-[9px] block text-slate-500 mt-1">HQ Office: Winnipeg, MB, Canada | info@cossetlogistics.com</span>
                   </div>
                   <div className="text-right">
                     <span className="text-xs font-bold bg-slate-900 text-white px-3 py-1 uppercase tracking-wider rounded">

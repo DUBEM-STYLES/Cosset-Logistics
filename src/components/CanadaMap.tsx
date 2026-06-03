@@ -310,7 +310,7 @@ export default function CanadaMap() {
           </button>
           
           <a
-            href={`tel:+14313735040`}
+            href={`tel:+14313735054`}
             className="px-5 py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-2"
           >
             <MapPin className="w-4 h-4 text-royal-blue" />

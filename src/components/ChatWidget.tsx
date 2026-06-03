@@ -79,7 +79,7 @@ export default function ChatWidget() {
         {
           id: String(Date.now() + 2),
           role: "assistant",
-          content: "⚠️ I encountered an error communicating with our logistical server nodes. Check your connections or call our central support directly at **+1 (431) 373-5040**.",
+          content: "⚠️ I encountered an error communicating with our logistical server nodes. Check your connections or call our central support directly at **+1 (431) 373-5054**.",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
         }
       ]);

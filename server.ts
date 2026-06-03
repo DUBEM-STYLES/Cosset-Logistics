@@ -40,8 +40,8 @@ Your home office is in Winnipeg, Manitoba.
 
 Company details:
 - Name: Cosset Logistics
-- Phone: +1 (431) 373-5040
-- Email: info@cossetlogistics.ca
+- Phone: +1 (431) 373-5054
+- Email: info@cossetlogistics.com
 - Major Hubs: Winnipeg, Toronto, Calgary, Edmonton, Vancouver, Ottawa, Regina, Saskatoon.
 - Services Offered:
   1. Moving Services: Residential Moving, Apartment Relocation, Office Moving, Packing Assistance.
@@ -89,7 +89,7 @@ app.post("/api/chat", async (req, res) => {
     } else if (lastUserMessage.toLowerCase().includes("track") || lastUserMessage.toLowerCase().includes("where is")) {
       simulatedReply = "To track a shipment, please enter your tracking code starting with **CS-** (e.g., **CS-98421** or **CS-10543**) in the tracking dashboard below! You will be able to see the live truck route, current city, and estimated delivery status in real-time.";
     } else if (lastUserMessage.toLowerCase().includes("contact") || lastUserMessage.toLowerCase().includes("phone") || lastUserMessage.toLowerCase().includes("email")) {
-      simulatedReply = "You can contact Cosset Logistics anytime!\n\n- 📞 Phone: **+1 (431) 373-5040**\n- ✉️ Email: **info@cossetlogistics.ca**\n- 📍 Main Office: **Winnipeg, Manitoba, Canada**\n\nOur customer desk is active 24/7 to support your logistics, moving, or hauling needs.";
+      simulatedReply = "You can contact Cosset Logistics anytime!\n\n- 📞 Phone: **+1 (431) 373-5054**\n- ✉️ Email: **info@cossetlogistics.com**\n- 📍 Main Office: **Winnipeg, Manitoba, Canada**\n\nOur customer desk is active 24/7 to support your logistics, moving, or hauling needs.";
     } else {
       simulatedReply = "Hello! I am **Cosset AI**, your logistics assistant. Welcome to Cosset Logistics. \n\nHow can I assist you today? I can help with:\n\n- 📦 Relocating your home or office\n- 🚚 Same-Day or scheduled dispatch across Canada\n- 🪵 Construction hauling or appliance removal\n- 📍 Service service coverage updates\n\nFeel free to ask a question, or use our **Live Quote Calculator** for an instant estimate!";
     }
@@ -114,7 +114,7 @@ app.post("/api/chat", async (req, res) => {
     });
 
     return res.json({
-      content: response.text || "I was unable to formulate a response. Please reach out to info@cossetlogistics.ca or call +1 (431) 373-5040.",
+      content: response.text || "I was unable to formulate a response. Please reach out to info@cossetlogistics.com or call +1 (431) 373-5054.",
       isDemo: false
     });
   } catch (error: any) {

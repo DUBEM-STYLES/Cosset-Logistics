@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Users, Receipt, Milestone, ShieldCheck, Phone, Mail, 
   MapPin, Clock, ArrowRight, Star, Heart, CheckCircle, Flame, Sparkles, 
@@ -16,16 +17,73 @@ import { Booking, GalleryItem, Testimonial } from "./types";
 import imageG2 from "./assets/images/regenerated_image_1780327752359.jpg";
 import imageG3 from "./assets/images/regenerated_image_1780327754763.png";
 import imageG4 from "./assets/images/regenerated_image_1780327753802.jpg";
+import imageG5 from "./assets/images/regenerated_image_1780503334416.png";
+import truckHeroImage from "./assets/images/truck_hero_brand_1780504317067.png";
+import cossetTeamImage from "./assets/images/cosset_team_blue_jackets_1780506246037.png";
 
 // Dynamic Unsplash links for beautiful, reliable illustration renderings
 const IMAGES = {
-  movingHero: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", 
+  movingHero: cossetTeamImage, 
   citySkyline: "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
   packageHandling: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",
   deliveryTruck: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=600&q=80",
   moverCarrying: "https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=600&q=80",
   haulingLoad: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=600&q=80",
   teamMember: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
+};
+
+const cardContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
+
+const cardRevealVariants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+      duration: 0.6
+    }
+  }
+};
+
+const galleryContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const galleryItemVariants = {
+  hidden: { opacity: 0, scale: 0.95, y: 25 },
+  visible: { 
+    opacity: 1, 
+    scale: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 110,
+      damping: 15
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    y: 15,
+    transition: { duration: 0.2 }
+  }
 };
 
 export default function App() {
@@ -281,7 +339,7 @@ export default function App() {
       id: "g5",
       title: "Logistics Dispatch Leaders",
       category: "team",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
+      image: imageG5,
       description: "Our dedicated 24/7 Winnipeg service desk team keeping Canada transit lines operational on absolute schedule."
     },
     {
@@ -447,10 +505,10 @@ export default function App() {
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 flex items-center justify-between gap-4">
                 <div className="space-y-0.5">
                   <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block font-mono">24/7 CUSTOMER SERVICE</span>
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">+1 (431) 373-5040</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">+1 (431) 373-5054</span>
                 </div>
                 <a
-                  href="tel:+14313735040"
+                  href="tel:+14313735054"
                   className="px-4 py-2 bg-royal-blue text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-royal-blue-hover shrink-0 transition-colors"
                 >
                   Call Desk
@@ -497,10 +555,10 @@ export default function App() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href="tel:+14313735040"
+                  href="tel:+14313735054"
                   className="px-7 py-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-slate-850 transition-colors text-center inline-block cursor-pointer"
                 >
-                  Call Now &bull; +1 (431) 373-5040
+                  Call Now &bull; +1 (431) 373-5054
                 </a>
               </div>
 
@@ -542,64 +600,122 @@ export default function App() {
               </div>
             </div>
 
-            {/* Simulated Hero Visual / Live Interactive Calculator column */}
+            {/* Simulated Hero Visual / Live Fleet Image Showcase */}
             <div className="lg:col-span-6 relative">
               {/* Subtle visual animated truck decoration in hero back-frame */}
               <div className="absolute -top-10 -right-8 w-48 h-48 bg-royal-blue/15 rounded-full blur-3xl pointer-events-none"></div>
               
-              <div className="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-premium p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between min-h-[460px] text-left">
-                {/* Decorative Top Frame */}
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-royal-blue to-blue-500"></div>
+              <div className="relative overflow-hidden rounded-[36px] bg-slate-950 border border-slate-200 dark:border-slate-800/80 h-[520px] shadow-2xl group text-left">
+                {/* Logistics Company Photo Representation */}
+                <img 
+                  src={truckHeroImage} 
+                  alt="Cosset Logistics Canada Fleet" 
+                  referrerPolicy="no-referrer"
+                  className="absolute inset-0 w-full h-full object-cover brightness-[0.80] dark:brightness-[0.65] group-hover:scale-102 transition-transform duration-1000" 
+                />
+                
+                {/* Visual dark overlay gradient for premium contrast */}
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/85 via-slate-950/25 to-transparent"></div>
 
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-1.5 text-[10px] font-bold text-royal-blue bg-blue-50 dark:bg-blue-900/25 px-2.5 py-1 rounded-md font-mono uppercase tracking-widest">
-                    <Sparkles className="w-3.5 h-3.5" /> Instant Transit Estimator Active
-                  </div>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
-                    Determine Your Flat Carrier Rate
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed font-medium">
-                    Use our advanced Haversine mileage matrix to calculate exact transport prices across Canada. No credit card required, instant live scheduling matrix logging.
+                {/* Live Fleet Dispatch Badge */}
+                <div className="absolute top-5 left-5 bg-royal-blue/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 shadow-lg border border-white/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  HQ Fleet Active &bull; Winnipeg Dispatch
+                </div>
+
+                {/* Bottom Info Overlay inside the Image frame */}
+                <div className="absolute bottom-6 left-6 right-6 text-white z-10">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-royal-blue bg-blue-50/10 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10 font-mono inline-block">
+                    HQ FLEET DIRECTORY
+                  </span>
+                  <h4 className="text-xl font-extrabold tracking-tight mt-2 uppercase">
+                    Commercial Fleet Cruisers
+                  </h4>
+                  <p className="text-xs text-slate-300 mt-1 max-w-md font-medium leading-relaxed">
+                    Modern trailer models and rapid-transit trucks engineered to support active commercial dispatch lanes and residential moves across all provinces.
                   </p>
                 </div>
+              </div>
+            </div>
 
-                {/* Visual Interactive Dashboard elements mimicking route */}
-                <div className="bg-slate-50 dark:bg-slate-855 rounded-2xl p-4.5 border border-slate-150 dark:border-slate-800/80 space-y-4 my-6 text-left">
-                  <div className="flex justify-between items-center text-xs font-bold text-slate-400 font-mono">
-                    <span>ROUTE CHANNELS PROVISIONED</span>
-                    <span className="text-emerald-500 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> READY
-                    </span>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 text-left">
-                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-750">
-                      <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">PICKUP HUB</span>
-                      <span className="text-sm font-black text-slate-900 dark:text-white">Winnipeg, MB</span>
-                    </div>
-                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-750">
-                      <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">DROPOFF METRO</span>
-                      <span className="text-sm font-black text-slate-900 dark:text-white">Toronto, ON</span>
-                    </div>
-                  </div>
+          </div>
+        </div>
+      </section>
 
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800 text-xs font-mono">
-                    <span className="text-slate-400">Standard Transit Rate:</span>
-                    <span className="font-bold text-slate-900 dark:text-white">$2.50 per excess km</span>
+      {/* Carrier Rate & Pricing Estimator Banner Section */}
+      <section id="carrier-rate-estimator" className="py-12 bg-slate-50 dark:bg-slate-905/40 border-t border-slate-150 dark:border-slate-900 text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white dark:bg-slate-900 border border-slate-205 dark:border-slate-800/80 rounded-[32px] p-6 sm:p-8 md:p-10 shadow-premium relative overflow-hidden">
+            {/* Ambient gradients */}
+            <div className="absolute -top-24 -left-24 w-72 h-72 bg-royal-blue/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+              
+              {/* Estimator Textual Information */}
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-flex items-center gap-1.5 text-[10px] font-bold text-royal-blue bg-blue-50 dark:bg-blue-900/25 px-2.5 py-1 rounded-md font-mono uppercase tracking-widest">
+                  <Sparkles className="w-3.5 h-3.5" /> Instant Transit Estimator Active
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+                  Determine Your Flat Carrier Rate
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-505 dark:text-slate-400 font-medium leading-relaxed">
+                  Calculate precise transportation estimates across Canada using our advanced coordinate-based Haversine mileage matrix. We offer zero hidden surcharges or surprise dock handling fees, locking in a clear standard transit rate per excess kilometer.
+                </p>
+
+                {/* Logistics Key Specs */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                  <div className="p-3.5 bg-slate-50/70 dark:bg-slate-855/70 rounded-xl border border-slate-150 dark:border-slate-800/50">
+                    <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider font-mono">Carrier Charge</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-white block mt-1">$2.50 / km</span>
+                  </div>
+                  <div className="p-3.5 bg-slate-50/70 dark:bg-slate-855/70 rounded-xl border border-slate-150 dark:border-slate-800/50">
+                    <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider font-mono">Central Hub</span>
+                    <span className="text-sm font-black text-royal-blue block mt-1">Winnipeg, MB</span>
+                  </div>
+                  <div className="p-3.5 bg-slate-50/70 dark:bg-slate-855/70 rounded-xl border border-slate-150 dark:border-slate-800/50">
+                    <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider font-mono">Cargo Cover</span>
+                    <span className="text-sm font-black text-emerald-500 block mt-1">$10M Guarantee</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dynamic Interactive Estimate Trigger Card */}
+              <div className="lg:col-span-5 bg-slate-50 dark:bg-slate-855 rounded-2xl p-5 sm:p-6 border border-slate-150 dark:border-slate-800/80 space-y-4">
+                <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 font-mono">
+                  <span>HQ FREIGHT METRIC CHANNELS</span>
+                  <span className="text-emerald-505 dark:text-emerald-405 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> READY
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3.5">
+                  <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-750 text-left">
+                    <span className="text-[8px] text-slate-450 font-bold block uppercase tracking-wider font-mono">PICKUP HUB</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white">Winnipeg, MB</span>
+                  </div>
+                  <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-755 text-left">
+                    <span className="text-[8px] text-slate-450 font-bold block uppercase tracking-wider font-mono">DROPOFF METRO</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white">Toronto, ON</span>
                   </div>
                 </div>
 
-                {/* Button to go to the full Quote Page */}
+                <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] font-mono">
+                  <span className="text-slate-400">Standard Transit Rate:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">$2.50 per excess km</span>
+                </div>
+
                 <button
                   onClick={() => setCurrentPage("quote")}
-                  className="w-full py-4 bg-royal-blue hover:bg-royal-blue-hover text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 bg-royal-blue hover:bg-royal-blue-hover text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-blue-500/15 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Calculate Free Quote Now
                   <ArrowRight className="w-4.5 h-4.5" />
                 </button>
               </div>
-            </div>
 
+            </div>
           </div>
         </div>
       </section>
@@ -620,10 +736,19 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            variants={cardContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             
             {/* MOVING SERVICES CARD */}
-            <div className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between">
+            <motion.div 
+              variants={cardRevealVariants}
+              className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between h-full"
+            >
               <div>
                 <div className="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-royal-blue rounded-2xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
                   <Truck className="w-6 h-6" />
@@ -657,10 +782,13 @@ export default function App() {
                 <span className="text-[10px] font-mono text-slate-400 block pb-1">starting minimum</span>
                 <span className="text-xl font-black text-slate-900 dark:text-white">$150 base (2 crew)</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* DELIVERY SERVICES CARD */}
-            <div className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between">
+            <motion.div 
+              variants={cardRevealVariants}
+              className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between h-full"
+            >
               <div>
                 {/* Delivery Package visual effect on icon hover */}
                 <div className="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-royal-blue rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -695,10 +823,13 @@ export default function App() {
                 <span className="text-[10px] font-mono text-slate-400 block pb-1">starting minimum</span>
                 <span className="text-xl font-black text-slate-900 dark:text-white">$35 flat delivery</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* HAULING SERVICES CARD */}
-            <div className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between">
+            <motion.div 
+              variants={cardRevealVariants}
+              className="bg-white dark:bg-slate-900 rounded-[30px] p-7 border border-slate-200/50 dark:border-slate-800 shadow-xs hover:border-royal-blue/50 transform hover:-translate-y-1.5 transition-all group flex flex-col justify-between h-full"
+            >
               <div>
                 <div className="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-royal-blue rounded-2xl flex items-center justify-center mb-6 group-hover:translate-x-1.5 transition-transform">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
@@ -732,9 +863,9 @@ export default function App() {
                 <span className="text-[10px] font-mono text-slate-400 block pb-1">starting minimum</span>
                 <span className="text-xl font-black text-slate-900 dark:text-white">$80 heavy hauling</span>
               </div>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -977,39 +1108,53 @@ export default function App() {
           </div>
 
           {/* Masonry Layout Blocks */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredGallery.map((item) => (
-              <div 
-                key={item.id}
-                onClick={() => setActiveLightbox(item)}
-                className="bg-white dark:bg-slate-900 p-3 rounded-[24px] border border-slate-150 dark:border-slate-800/80 shadow-xs hover:border-royal-blue group cursor-pointer overflow-hidden transition-all"
-              >
-                <div className="rounded-xl overflow-hidden relative aspect-video">
-                  <div className="absolute inset-0 bg-[#0A1F44]/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white z-20">
-                    <div className="w-10 h-10 rounded-full bg-royal-blue/90 flex items-center justify-center">
-                      <Camera className="w-5 h-5" />
+          <motion.div 
+            variants={galleryContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredGallery.map((item) => (
+                <motion.div 
+                  layout
+                  variants={galleryItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  key={item.id}
+                  onClick={() => setActiveLightbox(item)}
+                  className="bg-white dark:bg-slate-900 p-3 rounded-[24px] border border-slate-150 dark:border-slate-800/80 shadow-xs hover:border-royal-blue group cursor-pointer overflow-hidden transition-all"
+                >
+                  <div className="rounded-xl overflow-hidden relative aspect-video">
+                    <div className="absolute inset-0 bg-[#0A1F44]/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white z-20">
+                      <div className="w-10 h-10 rounded-full bg-royal-blue/90 flex items-center justify-center">
+                        <Camera className="w-5 h-5" />
+                      </div>
                     </div>
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <span className="absolute top-3 left-3 bg-slate-950/85 text-white backdrop-blur-xs font-mono text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider z-10">
+                      {item.category}
+                    </span>
                   </div>
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
-                  <span className="absolute top-3 left-3 bg-slate-950/85 text-white backdrop-blur-xs font-mono text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider z-10">
-                    {item.category}
-                  </span>
-                </div>
-                <div className="pt-3 px-1.5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-[10px] text-slate-450 dark:text-slate-400 mt-1 truncate">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <div className="pt-3 px-1.5">
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-tight">
+                      {item.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-450 dark:text-slate-400 mt-1 truncate">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Lightbox Pop Modal Dialog */}
           {activeLightbox && (
@@ -1162,7 +1307,7 @@ export default function App() {
               {/* Icon descriptors list */}
               <div className="space-y-4 pt-2">
                 <a 
-                  href="tel:+14313735040"
+                  href="tel:+14313735054"
                   className="flex items-center gap-4.5 p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-150 dark:border-slate-800 rounded-2xl transition-all"
                 >
                   <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-royal-blue flex items-center justify-center shrink-0">
@@ -1170,12 +1315,12 @@ export default function App() {
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase block font-mono">Phone Dispatcher</span>
-                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">+1 (431) 373-5040</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">+1 (431) 373-5054</span>
                   </div>
                 </a>
 
                 <a 
-                  href="mailto:info@cossetlogistics.ca"
+                  href="mailto:info@cossetlogistics.com"
                   className="flex items-center gap-4.5 p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-150 dark:border-slate-800 rounded-2xl transition-all"
                 >
                   <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-royal-blue flex items-center justify-center shrink-0">
@@ -1183,7 +1328,7 @@ export default function App() {
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase block font-mono">Operations Email desk</span>
-                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">info@cossetlogistics.ca</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">info@cossetlogistics.com</span>
                   </div>
                 </a>
 

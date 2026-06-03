@@ -13,12 +13,35 @@ export default function CossetLogo({
   textColor,
   showSub = true,
 }: CossetLogoProps) {
+  // Robustly parse height to set a corresponding explicit width, matching SVG 450:160 aspect ratio
+  let style: React.CSSProperties = { height, width: "auto" };
+  const strHeight = String(height);
+  if (strHeight.endsWith("px") || !isNaN(Number(height))) {
+    const numHeight = parseFloat(strHeight);
+    if (!isNaN(numHeight)) {
+      const numWidth = (numHeight * 450) / 160;
+      style = { height: `${numHeight}px`, width: `${numWidth}px` };
+    }
+  } else if (strHeight.endsWith("rem")) {
+    const numHeight = parseFloat(strHeight);
+    if (!isNaN(numHeight)) {
+      const numWidth = (numHeight * 450) / 160;
+      style = { height: `${numHeight}rem`, width: `${numWidth}rem` };
+    }
+  } else if (strHeight.endsWith("em")) {
+    const numHeight = parseFloat(strHeight);
+    if (!isNaN(numHeight)) {
+      const numWidth = (numHeight * 450) / 160;
+      style = { height: `${numHeight}em`, width: `${numWidth}em` };
+    }
+  }
+
   return (
     <svg
       id="cosset-brand-logo"
       viewBox="0 0 450 160"
-      className={`${className} transition-colors duration-300`}
-      style={{ height, width: "auto" }}
+      className={`${className} transition-colors duration-300 shrink-0 select-none`}
+      style={style}
       xmlns="http://www.w3.org/2000/svg"
     >
       {/* Blue Rounded Background Box for "COSSET" */}

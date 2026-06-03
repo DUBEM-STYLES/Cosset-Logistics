@@ -40,8 +40,8 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }: NavbarProp
   return (
     <header id="nav-header"
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-200/50 dark:border-slate-800/50 py-3"
+        scrolled || mobileMenuOpen
+          ? "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm border-b border-slate-200/50 dark:border-slate-800/50 py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -53,7 +53,7 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }: NavbarProp
             className="flex flex-col items-start cursor-pointer group transition-transform duration-200"
           >
             <CossetLogo height="38px" showSub={true} />
-            <div className="flex items-center gap-1 text-[8px] text-emerald-600 dark:text-emerald-400 font-mono tracking-wider mt-1.5 ml-0.5">
+            <div className="hidden sm:flex items-center gap-1 text-[8px] text-emerald-600 dark:text-emerald-400 font-mono tracking-wider mt-1.5 ml-0.5">
               <ShieldCheck className="w-3 h-3 inline" /> 100% BONDED & LIABILITY INSURED
             </div>
           </div>

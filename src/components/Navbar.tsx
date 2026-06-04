@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Truck, Phone, Moon, Sun, Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
+import { Phone, Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
 import CossetLogo from "./CossetLogo";
 
 interface NavbarProps {
-  darkMode: boolean;
-  setDarkMode: (value: boolean) => void;
   onNavigate: (sectionId: string) => void;
 }
 
-export default function Navbar({ darkMode, setDarkMode, onNavigate }: NavbarProps) {
+export default function Navbar({ onNavigate }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -73,15 +71,6 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }: NavbarProp
 
           {/* Action Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              aria-label="Toggle Theme"
-            >
-              {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
-            </button>
-
             {/* Phone Quick-Call */}
             <a
               href="tel:+14313735054"
@@ -105,15 +94,6 @@ export default function Navbar({ darkMode, setDarkMode, onNavigate }: NavbarProp
 
           {/* Mobile Right Bar */}
           <div className="flex items-center space-x-3 lg:hidden">
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-lg text-slate-500 dark:text-slate-400"
-              aria-label="Toggle Theme"
-            >
-              {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
-            </button>
-
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

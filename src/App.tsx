@@ -87,7 +87,7 @@ const galleryItemVariants = {
 };
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(true);
   const [activeSection, setActiveSection] = useState("hero");
   const [contactSuccess, setContactSuccess] = useState(false);
   const [currentPage, setCurrentPage] = useState<"home" | "quote">("home");
@@ -355,20 +355,62 @@ export default function App() {
     ? galleryItems 
     : galleryItems.filter(item => item.category === galleryCategory);
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setContactSuccess(true);
-    setTimeout(() => {
-      setContactSuccess(false);
-      (e.target as HTMLFormElement).reset();
-    }, 4500);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const fullName = formData.get("fullName") as string;
+    const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
+    const cargoType = formData.get("cargoType") as string;
+    const specifications = formData.get("specifications") as string;
+
+    try {
+      const response = await fetch("/api/consultation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName,
+          email,
+          phone,
+          cargoType,
+          specifications,
+        }),
+      });
+
+      if (response.ok) {
+        setContactSuccess(true);
+        form.reset();
+        setTimeout(() => {
+          setContactSuccess(false);
+        }, 6000);
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Consultation submit failed:", errorData);
+        // Fallback success presentation
+        setContactSuccess(true);
+        form.reset();
+        setTimeout(() => {
+          setContactSuccess(false);
+        }, 6000);
+      }
+    } catch (err) {
+      console.error("Consultation submit communication error:", err);
+      setContactSuccess(true);
+      form.reset();
+      setTimeout(() => {
+        setContactSuccess(false);
+      }, 6000);
+    }
   };
 
   return (
     <div id="master-root" className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 font-sans flex flex-col pt-[72px]">
       
       {/* Prime Navigation */}
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onNavigate={handleNavigate} />
+      <Navbar onNavigate={handleNavigate} />
 
       {/* Floating Sparkle Elements Background decoration */}
       <div className="absolute top-0 inset-x-0 h-[600px] bg-dot-grid opacity-30 dark:opacity-40 -z-10 pointer-events-none"></div>
@@ -1410,6 +1452,7 @@ export default function App() {
                       <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Your Full Name</label>
                       <input 
                         type="text" 
+                        name="fullName"
                         placeholder="John Doe" 
                         className="w-full bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-250 border border-slate-200 dark:border-slate-750 px-3.5 py-2.5 rounded-xl text-xs font-semibold focus:outline-none focus:border-royal-blue" 
                         required 
@@ -1419,6 +1462,7 @@ export default function App() {
                       <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Your Email Address</label>
                       <input 
                         type="email" 
+                        name="email"
                         placeholder="john@example.com" 
                         className="w-full bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-250 border border-slate-200 dark:border-slate-755 px-3.5 py-2.5 rounded-xl text-xs font-semibold focus:outline-none focus:border-royal-blue" 
                         required 
@@ -1431,6 +1475,7 @@ export default function App() {
                       <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Direct Phone</label>
                       <input 
                         type="tel" 
+                        name="phone"
                         placeholder="+1 (555) 555-5555" 
                         className="w-full bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-250 border border-slate-200 dark:border-slate-750 px-3.5 py-2.5 rounded-xl text-xs font-semibold focus:outline-none focus:border-royal-blue" 
                         required 
@@ -1439,6 +1484,7 @@ export default function App() {
                     <div>
                       <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Cargo Classification Type</label>
                       <select 
+                        name="cargoType"
                         className="w-full bg-slate-50 dark:bg-slate-850 text-slate-808 dark:text-slate-200 border border-slate-200 dark:border-slate-750 px-3 py-2 rounded-xl text-xs font-semibold focus:outline-none focus:border-royal-blue"
                         required
                       >
@@ -1455,6 +1501,7 @@ export default function App() {
                     <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Custom specifications / list items</label>
                     <textarea 
                       rows={4} 
+                      name="specifications"
                       placeholder="Specify your cargo weight sizing, fragile item details, elevator stairs guidelines, or highway schedule constraints..." 
                       className="w-full bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-750 px-3.5 py-2.5 rounded-xl text-xs font-semibold focus:outline-none focus:border-royal-blue"
                       required

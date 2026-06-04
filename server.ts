@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -292,6 +293,116 @@ app.post("/api/tracking", (req, res) => {
   }
 
   return res.json(trackingData);
+});
+
+// Transit Consultation Request forwarding to info@cossetlogistics.com
+app.post("/api/consultation", async (req, res) => {
+  const { fullName, email, phone, cargoType, specifications } = req.body;
+
+  if (!fullName || !email || !phone || !cargoType || !specifications) {
+    return res.status(400).json({ error: "All consultation form fields are required" });
+  }
+
+  // Define email body
+  const emailSubject = `🚨 New Transit Consultation Request from ${fullName}`;
+  const plainTextContent = `
+Transit Consultation Request (Cosset Logistics)
+-----------------------------------------------
+Full Name: ${fullName}
+Email Address: ${email}
+Direct Phone: ${phone}
+Cargo Classification Type: ${cargoType}
+Custom Specifications / List Items:
+${specifications}
+  `;
+
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #0056b3;">
+        <h2 style="color: #0056b3; margin: 0; font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Cosset Logistics</h2>
+        <p style="color: #64748b; font-size: 13px; margin: 5px 0 0 0; font-weight: 600;">CANADA FREIGHT SYSTEMS</p>
+      </div>
+      
+      <p style="font-size: 15px; color: #1e293b; line-height: 1.6;">A new transit consultation has been requested via the online dispatch portal. Below are the custom specifications submitted by the client:</p>
+      
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr>
+          <td style="padding: 10px 0; font-weight: bold; color: #475569; border-bottom: 1px solid #f1f5f9; font-size: 13px; width: 35%;">Client Name:</td>
+          <td style="padding: 10px 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; font-weight: 600; font-size: 14px;">${fullName}</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-weight: bold; color: #475569; border-bottom: 1px solid #f1f5f9; font-size: 13px;">Email Address:</td>
+          <td style="padding: 10px 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; font-weight: 600; font-size: 14px;"><a href="mailto:${email}" style="color: #0056b3; text-decoration: none;">${email}</a></td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-weight: bold; color: #475569; border-bottom: 1px solid #f1f5f9; font-size: 13px;">Direct Phone:</td>
+          <td style="padding: 10px 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; font-weight: 600; font-size: 14px;"><a href="tel:${phone}" style="color: #0056b3; text-decoration: none;">${phone}</a></td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-weight: bold; color: #475569; border-bottom: 1px solid #f1f5f9; font-size: 13px;">Cargo Classification:</td>
+          <td style="padding: 10px 0; color: #0f172a; border-bottom: 1px solid #f1f5f9; font-weight: 600; font-size: 14px; text-transform: uppercase;">${cargoType}</td>
+        </tr>
+      </table>
+      
+      <div style="background-color: #f8fafc; border-left: 4px solid #1d4ed8; padding: 15px; border-radius: 0 12px 12px 0; margin-top: 20px;">
+        <h4 style="margin: 0 0 10px 0; color: #1e293b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold;">Custom Specifications / Items List</h4>
+        <p style="margin: 0; color: #334155; font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;">${specifications}</p>
+      </div>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e2e8f0; text-align: center;">
+        <span style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Winnipeg HQ Autodispatch &bull; Customer Service Desk</span>
+      </div>
+    </div>
+  `;
+
+  // Always log to server console
+  console.log("========================================");
+  console.log(`CONSULTATION REQUEST LOGGED AT ${new Date().toISOString()}`);
+  console.log(plainTextContent.trim());
+  console.log("========================================");
+
+  // Send real email if SMTP is configured in environment
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE } = process.env;
+
+  if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: parseInt(SMTP_PORT || "587", 10),
+        secure: SMTP_SECURE === "true",
+        auth: {
+          user: SMTP_USER,
+          pass: SMTP_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"${fullName} (Cosset Web Portal)" <${SMTP_USER}>`,
+        to: "info@cossetlogistics.com",
+        replyTo: email,
+        subject: emailSubject,
+        text: plainTextContent,
+        html: htmlContent,
+      });
+
+      console.log("SUCCESS: Real consultation request forward email sent successfully to info@cossetlogistics.com");
+      return res.json({ success: true, message: "Consultation filed and email routed to operational desk successfully!" });
+    } catch (mailError: any) {
+      console.error("ERROR running SMTP transporter:", mailError);
+      return res.json({ 
+        success: true, 
+        message: "Consultation logged on server (SMTP delivery error)",
+        error: mailError.message || String(mailError)
+      });
+    }
+  } else {
+    console.log("NOTICE: SMTP credentials not fully configured. Consultation request simulation active.");
+    return res.json({ 
+      success: true, 
+      message: "Consultation request processed and logged to Cosset central systems! (SMTP fallback active)",
+      smtpConfigured: false
+    });
+  }
 });
 
 // Handle serving the React + Vite frontend

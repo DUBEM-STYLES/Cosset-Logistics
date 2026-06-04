@@ -18,7 +18,7 @@ import imageG2 from "./assets/images/regenerated_image_1780327752359.jpg";
 import imageG3 from "./assets/images/regenerated_image_1780327754763.png";
 import imageG4 from "./assets/images/regenerated_image_1780327753802.jpg";
 import imageG5 from "./assets/images/regenerated_image_1780503334416.png";
-import truckHeroImage from "./assets/images/truck_hero_brand_1780504317067.png";
+import truckHeroImage from "./assets/images/hauling_moving_truck_1780504013034.png";
 import cossetTeamImage from "./assets/images/cosset_team_blue_jackets_1780506246037.png";
 
 // Dynamic Unsplash links for beautiful, reliable illustration renderings

@@ -648,10 +648,10 @@ export default function App() {
               <div className="absolute -top-10 -right-8 w-48 h-48 bg-royal-blue/15 rounded-full blur-3xl pointer-events-none"></div>
               
               <div className="relative overflow-hidden rounded-[36px] bg-slate-950 border border-slate-200 dark:border-slate-800/80 h-[520px] shadow-2xl group text-left">
-                {/* Logistics Company Photo Representation */}
+                {/* Team Representation Image */}
                 <img 
-                  src={truckHeroImage} 
-                  alt="Cosset Logistics Canada Fleet" 
+                  src={IMAGES.movingHero} 
+                  alt="Cosset Moving Team" 
                   referrerPolicy="no-referrer"
                   className="absolute inset-0 w-full h-full object-cover brightness-[0.80] dark:brightness-[0.65] group-hover:scale-102 transition-transform duration-1000" 
                 />
@@ -659,23 +659,21 @@ export default function App() {
                 {/* Visual dark overlay gradient for premium contrast */}
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950/85 via-slate-950/25 to-transparent"></div>
 
-                {/* Live Fleet Dispatch Badge */}
-                <div className="absolute top-5 left-5 bg-royal-blue/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 shadow-lg border border-white/10">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                  HQ Fleet Active &bull; Winnipeg Dispatch
-                </div>
-
-                {/* Bottom Info Overlay inside the Image frame */}
-                <div className="absolute bottom-6 left-6 right-6 text-white z-10">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-royal-blue bg-blue-50/10 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10 font-mono inline-block">
-                    HQ FLEET DIRECTORY
-                  </span>
-                  <h4 className="text-xl font-extrabold tracking-tight mt-2 uppercase">
-                    Commercial Fleet Cruisers
-                  </h4>
-                  <p className="text-xs text-slate-300 mt-1 max-w-md font-medium leading-relaxed">
-                    Modern trailer models and rapid-transit trucks engineered to support active commercial dispatch lanes and residential moves across all provinces.
-                  </p>
+                {/* Floating overlay card */}
+                <div className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-black uppercase text-slate-900 dark:text-white block font-sans">
+                        Licensed & Fully Bonded
+                      </span>
+                      <span className="text-[10px] text-slate-450 dark:text-slate-400 font-medium">
+                        $10M Commercial Liability Guarantee
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -919,29 +917,33 @@ export default function App() {
             
             {/* Visual Image and fast tag column */}
             <div className="lg:col-span-5 relative">
-              <div className="rounded-[40px] overflow-hidden relative shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+              <div className="rounded-[40px] overflow-hidden relative shadow-2xl h-[450px] bg-slate-950 border border-slate-250 dark:border-slate-800/80 group">
                 <img 
-                  src={IMAGES.movingHero} 
-                  alt="Cosset Moving Team" 
-                  className="w-full h-[450px] object-cover scale-102 hover:scale-100 transition-transform duration-700" 
+                  src={truckHeroImage} 
+                  alt="Cosset Logistics Canada Fleet" 
+                  className="absolute inset-0 w-full h-full object-cover brightness-[0.80] dark:brightness-[0.65] group-hover:scale-102 transition-transform duration-1000" 
                 />
                 
-                {/* Floating overlay card */}
-                <div className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 border border-white/20">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">
-                      <ShieldCheck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-black uppercase text-slate-900 dark:text-white block font-sans">
-                        Licensed & Fully Bonded
-                      </span>
-                      <span className="text-[10px] text-slate-450 dark:text-slate-400 font-medium">
-                        $10M Commercial Liability Guarantee
-                      </span>
-                    </div>
-                  </div>
+                {/* Visual dark overlay gradient for premium contrast */}
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/85 via-slate-950/25 to-transparent"></div>
+
+                {/* Live Fleet Dispatch Badge */}
+                <div className="absolute top-5 left-5 bg-royal-blue/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 shadow-lg border border-white/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  HQ Fleet Active &bull; Winnipeg Dispatch
+                </div>
+
+                {/* Bottom Info Overlay inside the Image frame */}
+                <div className="absolute bottom-6 left-6 right-6 text-white z-10">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-royal-blue bg-blue-50/10 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10 font-mono inline-block">
+                    HQ FLEET DIRECTORY
+                  </span>
+                  <h4 className="text-xl font-extrabold tracking-tight mt-2 uppercase">
+                    Commercial Fleet Cruisers
+                  </h4>
+                  <p className="text-xs text-slate-300 mt-1 max-w-md font-medium leading-relaxed">
+                    Modern trailer models and rapid-transit trucks engineered to support active commercial dispatch lanes and residential moves across all provinces.
+                  </p>
                 </div>
               </div>
             </div>

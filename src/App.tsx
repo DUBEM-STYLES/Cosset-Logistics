@@ -9,8 +9,6 @@ import Navbar from "./components/Navbar";
 import CossetLogo from "./components/CossetLogo";
 import CanadaMap from "./components/CanadaMap";
 import QuoteCalculator from "./components/QuoteCalculator";
-import TrackingDashboard from "./components/TrackingDashboard";
-import CustomerPortal from "./components/CustomerPortal";
 import ChatWidget from "./components/ChatWidget";
 import { Booking, GalleryItem, Testimonial } from "./types";
 
@@ -151,19 +149,7 @@ export default function App() {
   // Handle setting/adding new bookings from quote calculator
   const handleAddBooking = (newBooking: Booking) => {
     setBookings(prev => [newBooking, ...prev]);
-    
-    // Auto transition to the Customer Portal section so they inspect the booked delivery!
-    setTimeout(() => {
-      handleNavigate("portal");
-    }, 1200);
-  };
-
-  const handleUpdateBookingStatus = (id: string, newStatus: any) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
-  };
-
-  const handleCancelBooking = (id: string) => {
-    setBookings(prev => prev.filter(b => b.id !== id));
+    console.log("Booking successfully created in local state registry:", newBooking);
   };
 
   // Counting-up effect
@@ -442,12 +428,6 @@ export default function App() {
               >
                 Browse Services
               </button>
-              <button
-                onClick={() => handleNavigate("portal")}
-                className="px-5 py-3 bg-slate-950 dark:bg-slate-850 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                View Booked Deliveries
-              </button>
             </div>
           </div>
 
@@ -658,23 +638,6 @@ export default function App() {
                 
                 {/* Visual dark overlay gradient for premium contrast */}
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950/85 via-slate-950/25 to-transparent"></div>
-
-                {/* Floating overlay card */}
-                <div className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 border border-white/20">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">
-                      <ShieldCheck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-black uppercase text-slate-900 dark:text-white block font-sans">
-                        Licensed & Fully Bonded
-                      </span>
-                      <span className="text-[10px] text-slate-450 dark:text-slate-400 font-medium">
-                        $10M Commercial Liability Guarantee
-                      </span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -1032,23 +995,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Booking and Customer portal dashboard */}
-      <section id="portal" className="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-205/60 dark:border-slate-900/80 text-left">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CustomerPortal 
-            bookingsList={bookings} 
-            onUpdateStatus={handleUpdateBookingStatus} 
-            onCancelBooking={handleCancelBooking} 
-          />
-        </div>
-      </section>
 
-      {/* Shipment Tracking Dashboard Section */}
-      <section id="tracking" className="py-20 bg-white dark:bg-slate-900 border-t border-slate-150 dark:border-slate-800 text-left">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <TrackingDashboard />
-        </div>
-      </section>
 
       {/* Process Section */}
       <section id="process" className="py-20 text-left bg-slate-50 dark:bg-slate-950/50 border-y border-slate-200/50 dark:border-slate-900">
@@ -1585,8 +1532,7 @@ export default function App() {
               <h5 className="font-bold text-xs uppercase tracking-widest text-white font-mono">Quick Links</h5>
               <ul className="space-y-1.5 text-xs">
                 <li><button onClick={() => handleNavigate("calculator")} className="hover:text-white transition-colors cursor-pointer">Interactive Quote Form</button></li>
-                <li><button onClick={() => handleNavigate("tracking")} className="hover:text-white transition-colors cursor-pointer">Shipment Live Tracking</button></li>
-                <li><button onClick={() => handleNavigate("portal")} className="hover:text-white transition-colors cursor-pointer">My Operational Portal</button></li>
+                <li><button onClick={() => setCurrentPage("home")} className="hover:text-white transition-colors cursor-pointer">Cosset Direct Services</button></li>
                 <li><button onClick={() => handleNavigate("why-us")} className="hover:text-white transition-colors cursor-pointer font-bold text-royal-blue">Liability Indemnity Plan</button></li>
               </ul>
             </div>

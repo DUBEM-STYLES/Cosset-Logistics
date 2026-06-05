@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Phone, Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
+import { Phone, Menu, X, ArrowRight } from "lucide-react";
 import CossetLogo from "./CossetLogo";
 
 interface NavbarProps {
@@ -21,13 +21,8 @@ export default function Navbar({ onNavigate }: NavbarProps) {
 
   const navLinks = [
     { name: "Services", id: "services" },
-    { name: "Why Us", id: "why-us" },
     { name: "Quote Calculator", id: "calculator" },
     { name: "Destinations", id: "service-areas" },
-    { name: "Our Process", id: "process" },
-    { name: "Tracking", id: "tracking" },
-    { name: "Portal", id: "portal" },
-    { name: "Contact", id: "contact" },
   ];
 
   const handleLinkClick = (id: string) => {
@@ -51,9 +46,6 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             className="flex flex-col items-start cursor-pointer group transition-transform duration-200"
           >
             <CossetLogo height="38px" showSub={true} />
-            <div className="hidden sm:flex items-center gap-1 text-[8px] text-emerald-600 dark:text-emerald-400 font-mono tracking-wider mt-1.5 ml-0.5">
-              <ShieldCheck className="w-3 h-3 inline" /> 100% BONDED & LIABILITY INSURED
-            </div>
           </div>
 
           {/* Desktop Navigation */}

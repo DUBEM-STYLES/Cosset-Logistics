@@ -148,62 +148,39 @@ export default function QuoteCalculator({ onAddBooking, onNavigate }: QuoteCalcu
       <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-royal-blue to-blue-500"></div>
 
       {isBooked ? (
-        <div className="py-8 text-center space-y-6">
+        <div className="py-8 text-center space-y-6 animate-fade-in">
           <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
             <CheckCircle2 className="w-9 h-9" />
           </div>
           <div>
             <h4 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-              Booking Successfully Dispatched!
+              Request Successfully Received!
             </h4>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-sm mx-auto">
-              Your pickup has been logged directly into our Canada central scheduling matrix. Live vehicle assignment is in progress.
+              Your calculated transit parameters have been logged into our Winnipeg Central Dispatch. A logistics coordinator will contact you by telephone or email to finalize scheduling.
             </p>
           </div>
 
-          {/* Golden Ticket Badge with live tracking */}
-          <div className="bg-slate-50 dark:bg-slate-850 border border-dashed border-slate-200 dark:border-slate-750 rounded-2xl p-4.5 max-w-sm mx-auto flex items-center justify-between">
-            <div className="text-left">
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
-                FREIGHT TRACKING ID
+          <div className="bg-slate-50 dark:bg-slate-850 border border-dashed border-slate-200 dark:border-slate-750 rounded-2xl p-4.5 max-w-sm mx-auto">
+            <div className="text-center">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block mb-1">
+                DISPATCH REFERENCE ID
               </span>
               <span className="text-lg font-black text-slate-950 dark:text-white tracking-wide font-mono">
                 {lastAssignedTracking}
               </span>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1.5 font-medium leading-relaxed">
+                Zero Deposit &bull; No upfront commitment. Guaranteed dispatch slot confirmation within 30 minutes.
+              </p>
             </div>
-            <button
-              onClick={() => {
-                // Auto trigger lookup with prefilled state in parent window
-                const trackingSection = document.getElementById("tracking");
-                if (trackingSection) {
-                  const input = document.getElementById("tracking-input-search") as HTMLInputElement;
-                  if (input) {
-                    input.value = lastAssignedTracking;
-                    // Trigger input change
-                    const event = new Event("input", { bubbles: true });
-                    input.dispatchEvent(event);
-                  }
-                  trackingSection.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="px-4 py-2 bg-royal-blue hover:bg-royal-blue-hover text-white text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all"
-            >
-              Track Now
-            </button>
           </div>
 
-          <div className="flex justify-center gap-3 pt-3">
-            <button
-              onClick={() => onNavigate("portal")}
-              className="px-5 py-2.5 bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all"
-            >
-              Open My Portal
-            </button>
+          <div className="flex justify-center pt-3">
             <button
               onClick={() => setIsBooked(false)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-widest rounded-xl transition-all"
+              className="px-6 py-3 bg-slate-950 dark:bg-slate-800 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-md"
             >
-              New Calculation
+              Configure Another Route
             </button>
           </div>
         </div>

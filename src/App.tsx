@@ -633,7 +633,7 @@ export default function App() {
                   src={IMAGES.movingHero} 
                   alt="Cosset Moving Team" 
                   referrerPolicy="no-referrer"
-                  className="absolute inset-0 w-full h-full object-cover brightness-[0.80] dark:brightness-[0.65] group-hover:scale-102 transition-transform duration-1000" 
+                  className="absolute inset-0 w-full h-full object-cover brightness-105 group-hover:scale-102 transition-transform duration-1000" 
                 />
                 
                 {/* Visual dark overlay gradient for premium contrast */}
@@ -902,10 +902,10 @@ export default function App() {
                     HQ FLEET DIRECTORY
                   </span>
                   <h4 className="text-xl font-extrabold tracking-tight mt-2 uppercase">
-                    Commercial Fleet Cruisers
+                    Medium-Duty Box Trucks
                   </h4>
                   <p className="text-xs text-slate-300 mt-1 max-w-md font-medium leading-relaxed">
-                    Modern trailer models and rapid-transit trucks engineered to support active commercial dispatch lanes and residential moves across all provinces.
+                    Versatile straight trucks and medium-duty box vehicles engineered to support urban deliveries, commercial lanes, and intermediate freight transport safely.
                   </p>
                 </div>
               </div>

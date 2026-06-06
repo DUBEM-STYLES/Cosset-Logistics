@@ -10,6 +10,7 @@ import CossetLogo from "./components/CossetLogo";
 import CanadaMap from "./components/CanadaMap";
 import QuoteCalculator from "./components/QuoteCalculator";
 import ChatWidget from "./components/ChatWidget";
+import PrivacyPolicyModal from "./components/PrivacyPolicyModal";
 import { Booking, GalleryItem, Testimonial } from "./types";
 
 import imageG2 from "./assets/images/regenerated_image_1780327752359.jpg";
@@ -89,6 +90,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("hero");
   const [contactSuccess, setContactSuccess] = useState(false);
   const [currentPage, setCurrentPage] = useState<"home" | "quote">("home");
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   
   // Testimonial auto-rotation or selection index state
   const [currentTestimonialIdx, setCurrentTestimonialIdx] = useState(0);
@@ -1534,6 +1536,7 @@ export default function App() {
                 <li><button onClick={() => handleNavigate("calculator")} className="hover:text-white transition-colors cursor-pointer">Interactive Quote Form</button></li>
                 <li><button onClick={() => setCurrentPage("home")} className="hover:text-white transition-colors cursor-pointer">Cosset Direct Services</button></li>
                 <li><button onClick={() => handleNavigate("why-us")} className="hover:text-white transition-colors cursor-pointer font-bold text-royal-blue">Liability Indemnity Plan</button></li>
+                <li><button onClick={() => setIsPrivacyOpen(true)} className="hover:text-white text-emerald-500 dark:text-emerald-400 font-bold transition-colors cursor-pointer flex items-center gap-1">🔒 Privacy Policy</button></li>
               </ul>
             </div>
 
@@ -1544,6 +1547,7 @@ export default function App() {
             <div>
               &copy; {new Date().getFullYear()} Cosset Logistics Inc. All rights reserved across Canada.
               <span className="block sm:inline sm:ml-2">Winnipeg, Manitoba, Canada. Registered No. #498212C.</span>
+              <button onClick={() => setIsPrivacyOpen(true)} className="ml-2 hover:text-slate-900 dark:hover:text-slate-350 transition-colors font-bold underline cursor-pointer">Privacy Policy</button>
             </div>
             
             <div className="flex items-center gap-1.5">
@@ -1559,6 +1563,12 @@ export default function App() {
 
       {/* Floating Smart Conversational AI specialist chat widget */}
       <ChatWidget />
+
+      {/* Corporate Privacy Policy Overlay and Document Panel */}
+      <PrivacyPolicyModal 
+        isOpen={isPrivacyOpen} 
+        onClose={() => setIsPrivacyOpen(false)} 
+      />
 
     </div>
   );

@@ -65,13 +65,13 @@ export default function Navbar({ onNavigate }: NavbarProps) {
           <div className="hidden lg:flex items-center space-x-4">
             {/* Phone Quick-Call */}
             <a
-              href="tel:+14313735054"
+              href="tel:+14313735040"
               className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-royal-blue dark:hover:text-royal-blue transition-colors"
             >
               <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-royal-blue">
                 <Phone className="w-4 h-4" />
               </div>
-              <span className="font-mono text-xs">+1 (431) 373-5054</span>
+              <span className="font-mono text-xs">+1 (431) 373-5040</span>
             </a>
 
             {/* Main CTA */}
@@ -119,11 +119,11 @@ export default function Navbar({ onNavigate }: NavbarProps) {
               ))}
               <div className="pt-4 border-t border-slate-150 dark:border-slate-800 flex flex-col sm:flex-row gap-3 px-4">
                 <a
-                  href="tel:+14313735054"
+                  href="tel:+14313735040"
                   className="flex items-center justify-center gap-2.5 px-4 py-3 border border-slate-250 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 font-mono text-sm"
                 >
                   <Phone className="w-4 h-4 text-royal-blue" />
-                  +1 (431) 373-5054
+                  +1 (431) 373-5040
                 </a>
                 <button
                   onClick={() => handleLinkClick("calculator")}

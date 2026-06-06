@@ -529,10 +529,10 @@ export default function App() {
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 flex items-center justify-between gap-4">
                 <div className="space-y-0.5">
                   <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block font-mono">24/7 CUSTOMER SERVICE</span>
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">+1 (431) 373-5054</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">+1 (431) 373-5040</span>
                 </div>
                 <a
-                  href="tel:+14313735054"
+                  href="tel:+14313735040"
                   className="px-4 py-2 bg-royal-blue text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-royal-blue-hover shrink-0 transition-colors"
                 >
                   Call Desk
@@ -579,10 +579,10 @@ export default function App() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href="tel:+14313735054"
+                  href="tel:+14313735040"
                   className="px-7 py-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-slate-850 transition-colors text-center inline-block cursor-pointer"
                 >
-                  Call Now &bull; +1 (431) 373-5054
+                  Call Now &bull; +1 (431) 373-5040
                 </a>
               </div>
 
@@ -1300,7 +1300,7 @@ export default function App() {
               {/* Icon descriptors list */}
               <div className="space-y-4 pt-2">
                 <a 
-                  href="tel:+14313735054"
+                  href="tel:+14313735040"
                   className="flex items-center gap-4.5 p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-150 dark:border-slate-800 rounded-2xl transition-all"
                 >
                   <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-royal-blue flex items-center justify-center shrink-0">
@@ -1308,7 +1308,7 @@ export default function App() {
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase block font-mono">Phone Dispatcher</span>
-                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">+1 (431) 373-5054</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">+1 (431) 373-5040</span>
                   </div>
                 </a>
 

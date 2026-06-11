@@ -100,10 +100,10 @@ export default function App() {
   const [activeLightbox, setActiveLightbox] = useState<GalleryItem | null>(null);
 
   // Counters start value for counting-up animations on load
-  const [deliveriesCount, setDeliveriesCount] = useState(3800);
+  const [deliveriesCount, setDeliveriesCount] = useState(80);
   const [satisfactionRate, setSatisfactionRate] = useState(85);
   const [citiesServed, setCitiesServed] = useState(1);
-  const [trucksLive, setTrucksLive] = useState(5);
+  const [trucksLive, setTrucksLive] = useState(2);
 
   // Customer Portal preloaded reservation matrix
   const [bookings, setBookings] = useState<Booking[]>([
@@ -158,13 +158,13 @@ export default function App() {
   useEffect(() => {
     const deliveriesInterval = setInterval(() => {
       setDeliveriesCount((prev) => {
-        if (prev >= 5000) {
+        if (prev >= 100) {
           clearInterval(deliveriesInterval);
-          return 5000;
+          return 100;
         }
-        return prev + 60;
+        return prev + 1;
       });
-    }, 20);
+    }, 40);
 
     const satisfactionInterval = setInterval(() => {
       setSatisfactionRate((prev) => {
@@ -188,13 +188,13 @@ export default function App() {
 
     const trucksInterval = setInterval(() => {
       setTrucksLive((prev) => {
-        if (prev >= 24) {
+        if (prev >= 5) {
           clearInterval(trucksInterval);
-          return 24;
+          return 5;
         }
         return prev + 1;
       });
-    }, 90);
+    }, 300);
 
     return () => {
       clearInterval(deliveriesInterval);
@@ -614,7 +614,7 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-3xl font-black text-royal-blue tracking-tight flex items-center gap-1.5 justify-start">
-                    <span>{trucksLive}</span>
+                    <span>{trucksLive}+</span>
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
                   </div>
                   <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
